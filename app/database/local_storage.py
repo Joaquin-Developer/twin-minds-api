@@ -49,3 +49,29 @@ def insert_user(email: str, name: str, age: int, personality: str, interests: Li
     data.append(new_user)
     save_data(data)
     print(f"Usuario '{name}' insertado con ID: {new_id}")
+
+
+PERSONALITIES_SET = [
+    "INTJ",
+    "INTP",
+    "ENTJ",
+    "ENTP",
+    "INFJ",
+    "INFP",
+    "ENFJ",
+    "ENFP",
+    "ISTJ",
+    "ISFJ",
+    "ESTJ",
+    "ESFJ",
+    "ISTP",
+    "ISFP",
+    "ESTP",
+    "ESFP",
+]
+
+
+INTERESTS_SET = [
+    "videogames", "gym", "astronomy", "voley", "cars", "science", "music", "art", "yoga", "rock", "jazz", "anime",
+    "cats", "dogs",
+]

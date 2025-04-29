@@ -1,5 +1,3 @@
-from typing import List
-
 
 COMPATIBILITIES_MYERS_BRIGGS_DATA = {
   "excellent": {
@@ -75,11 +73,3 @@ COMPATIBILITIES_MYERS_BRIGGS_DATA = {
     "ESFP": ["INTP", "INFP"]
   }
 }
-
-
-def get_personality_match(user_type: str, comp_type) -> List[str]:
-    return COMPATIBILITIES_MYERS_BRIGGS_DATA[comp_type][user_type]
-
-
-class MatchesService:
-    ...

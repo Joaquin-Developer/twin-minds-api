@@ -1,0 +1,26 @@
+from typing import List
+
+from fastapi import APIRouter, Response, status
+
+from app.models import user as usr_models
+from app.services.users import UsersService
+
+router = APIRouter()
+
+
+@router.get("/", response_model=List[usr_models.User])
+def get_all_users():
+    return UsersService.get_all_users()
+
+
+@router.post("/create", status_code=status.HTTP_201_CREATED)
+def create_user(data: usr_models.CreateUserRequest):
+    try:
+        UsersService.create_user(data)
+    except Exception as error:
+        return Response(content=str(error), status_code=status.HTTP_400_BAD_REQUEST)
+
+
+# router.post("/set_profile")
+# def set_user_profile():
+#     pass

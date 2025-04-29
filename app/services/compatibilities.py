@@ -1,7 +1,7 @@
 
 COMPATIBILITIES_MYERS_BRIGGS_DATA = {
   "excellent": {
-    "INTJ": ["ENFP", "INFP"],
+    "INTJ": ["ENFP", "INFP", "INTJ"],
     "INTP": ["ENTP", "ENFP"],
     "ENTJ": ["INFP", "INTP"],
     "ENTP": ["INFJ", "INFP"],

@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List
 
 from app.models.user import CreateUserRequest, User
 from app.database import local_storage as db
@@ -38,3 +38,12 @@ class UsersService:
                     interests=user["interests"],
                 )
         return None
+
+    @staticmethod
+    def validate_mail(mail: str) -> bool:
+        """
+        Returns True if mail already exists.
+        """
+        data = db.load()
+        mails = { user["email"] for user in data }
+        return mail in mails

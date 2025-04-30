@@ -13,6 +13,15 @@ def get_all_users():
     return UsersService.get_all_users()
 
 
+@router.get("/mail-exists/{mail}", response_model=usr_models.MailExistsResponse)
+def mail_exists(mail: str):
+    exists = UsersService.validate_mail(mail)
+    return usr_models.MailExistsResponse(
+        mail=mail,
+        exists=exists
+    )
+
+
 @router.post("/create", status_code=status.HTTP_201_CREATED)
 def create_user(data: usr_models.CreateUserRequest):
     try:

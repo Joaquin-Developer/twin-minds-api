@@ -19,3 +19,8 @@ class CreateUserRequest(BaseModel):
     age: int
     personality: str
     interests: List[str]
+
+
+class MailExistsResponse(BaseModel):
+    mail: str
+    exists: bool

@@ -51,7 +51,7 @@ def insert_user(email: str, name: str, age: int, personality: str, interests: Li
     print(f"Usuario '{name}' insertado con ID: {new_id}")
 
 
-PERSONALITIES_SET = [
+PERSONALITIES_SET = {
     "INTJ",
     "INTP",
     "ENTJ",
@@ -68,10 +68,10 @@ PERSONALITIES_SET = [
     "ISFP",
     "ESTP",
     "ESFP",
-]
+}
 
 
-INTERESTS_SET = [
+INTERESTS_SET = {
     "videogames", "gym", "astronomy", "voley", "cars", "science", "music", "art", "yoga", "rock", "jazz", "anime",
     "cats", "dogs",
-]
+}

@@ -7,7 +7,15 @@ from app.database import local_storage as db
 class UsersService:
     @staticmethod
     def create_user(data: CreateUserRequest):
-        db.insert_user(data.email, data.name, data.age, data.personality, data.interests)
+        new_user = db.insert_user(data.email, data.name, data.age, data.personality, data.interests)
+        return User(
+            id=new_user["id"],
+            email=new_user["email"],
+            name=new_user["name"],
+            age=new_user["age"],
+            personality=new_user["personality"],
+            interests=new_user["interests"],
+        )
 
     @staticmethod
     def get_all_users() -> List[User]:

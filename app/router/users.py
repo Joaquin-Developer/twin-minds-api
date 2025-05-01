@@ -22,10 +22,10 @@ def mail_exists(mail: str):
     )
 
 
-@router.post("/create", status_code=status.HTTP_201_CREATED)
+@router.post("/create", status_code=status.HTTP_201_CREATED, response_model=usr_models.User)
 def create_user(data: usr_models.CreateUserRequest):
     try:
-        UsersService.create_user(data)
+        return UsersService.create_user(data)
     except Exception as error:
         return Response(content=str(error), status_code=status.HTTP_400_BAD_REQUEST)
 

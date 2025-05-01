@@ -30,7 +30,7 @@ def save_data(data: List[Dict[str, Any]]):
         json.dump(data, file, indent=4)
 
 
-def insert_user(email: str, name: str, age: int, personality: str, interests: List[str]):
+def insert_user(email: str, name: str, age: int, personality: str, interests: List[str]) -> Dict[str, str]:
     data = load()
 
     emails = set([usr["email"] for usr in data])
@@ -49,6 +49,7 @@ def insert_user(email: str, name: str, age: int, personality: str, interests: Li
     data.append(new_user)
     save_data(data)
     print(f"Usuario '{name}' insertado con ID: {new_id}")
+    return new_user
 
 
 PERSONALITIES_SET = {

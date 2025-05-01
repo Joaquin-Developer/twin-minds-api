@@ -13,13 +13,10 @@ def get_all_users():
     return UsersService.get_all_users()
 
 
-@router.get("/mail-exists/{mail}", response_model=usr_models.MailExistsResponse)
+@router.get("/mail-exists/{mail}", response_model=usr_models.User)
 def mail_exists(mail: str):
-    exists = UsersService.validate_mail(mail)
-    return usr_models.MailExistsResponse(
-        mail=mail,
-        exists=exists
-    )
+    user = UsersService.get_user_by_mail(mail)
+    return user if user else Response(content="User not found", status_code=status.HTTP_404_NOT_FOUND)
 
 
 @router.post("/create", status_code=status.HTTP_201_CREATED, response_model=usr_models.User)

@@ -48,10 +48,16 @@ class UsersService:
         return None
 
     @staticmethod
-    def validate_mail(mail: str) -> bool:
-        """
-        Returns True if mail already exists.
-        """
+    def get_user_by_mail(mail: str) -> User:
         data = db.load()
-        mails = { user["email"] for user in data }
-        return mail in mails
+        for user in data:
+            if user["email"] == mail:
+                return User(
+                    id=user["id"],
+                    email=user["email"],
+                    name=user["name"],
+                    age=user["age"],
+                    personality=user["personality"],
+                    interests=user["interests"],
+                )
+        return None

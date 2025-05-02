@@ -17,9 +17,9 @@ class CandidatesService:
         """
         return COMPATIBILITIES_MYERS_BRIGGS_DATA[level][self.user.personality]
 
-    def get_candidates_db(self):
+    async def get_candidates_db(self):
         # TODO: Filter in bd by location and age range.
-        data = self.users_service.get_all_users()
+        data = await self.users_service.get_all_users()
         return [
             Candidate(
                 score=0,
@@ -76,8 +76,8 @@ class CandidatesService:
 
             candidate.score += score
 
-    def generate(self) -> List[Candidate]:
-        all_candidates = self.get_candidates_db()
+    async def generate(self) -> List[Candidate]:
+        all_candidates = await self.get_candidates_db()
         candidates = self.calculate_mbty_personality(all_candidates)
         self.calculate_interests_personality(candidates)
 

@@ -4,6 +4,7 @@ from fastapi import APIRouter, Response, status
 
 from app.models import user as usr_models
 from app.services.users import UsersService
+from app.logger import logger
 
 router = APIRouter()
 users_service = UsersService()
@@ -25,4 +26,5 @@ async def create_user(data: usr_models.CreateUserRequest):
     try:
         return await users_service.create_user(data)
     except Exception as error:
+        logger.warning(error)
         return Response(content=str(error), status_code=status.HTTP_400_BAD_REQUEST)

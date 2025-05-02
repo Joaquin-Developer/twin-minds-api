@@ -1,8 +1,12 @@
-from typing import List, Dict
+from typing import List, Dict, Any
 from abc import ABC, abstractmethod
 
 
 class UserRepository(ABC):
+    @abstractmethod
+    def generate_unique_id(self, data: List[Dict[str, Any]] | None) -> int:
+        ...
+
     @abstractmethod
     def insert_user(self, email: str, name: str, age: int, personality: str, interests: List[str]) -> Dict[str, str]:
         ...

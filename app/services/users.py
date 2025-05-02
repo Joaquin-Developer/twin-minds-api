@@ -13,8 +13,8 @@ class UsersService:
         else:
             self.db = MongoDBUserRepository()
 
-    async def create_user(self, data: CreateUserRequest):
-        new_user = self.db.insert_user(data.email, data.name, data.age, data.personality, data.interests)
+    async def create_user(self, data: CreateUserRequest) -> User:
+        new_user = await self.db.insert_user(data.email, data.name, data.age, data.personality, data.interests)
         return User(
             id=new_user["id"],
             email=new_user["email"],

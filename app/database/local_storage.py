@@ -2,6 +2,7 @@ from typing import List, Dict, Any
 import json
 
 from app.database.repository import UserRepository, MetadataRepository
+from app.logger import logger
 
 JSON_PATH = "app/resources/users.json"
 
@@ -34,7 +35,7 @@ class LocalStorageUserRepository(UserRepository):
         with open(JSON_PATH, "w") as file:
             json.dump(data, file, indent=4)
 
-        print(f"Usuario '{name}' insertado con ID: {new_id}")
+        logger.info("User %s inserted with ID: %s", name, str(new_id))
         return new_user
 
     def load(self) -> List[Dict[str, str]]:
@@ -43,10 +44,10 @@ class LocalStorageUserRepository(UserRepository):
                 data = json.load(file)
             return data
         except FileNotFoundError:
-            print(f"Error: '{JSON_PATH}' not found.")
+            logger.error("'%s' file not found", JSON_PATH)
             return []
         except json.JSONDecodeError:
-            print(f"Error: Invalid '{JSON_PATH}' file.")
+            logger.error("Invalid '%s' file", JSON_PATH)
             return []
 
     def get_user_by_id(self, user_id: int) -> Dict[str, str]:

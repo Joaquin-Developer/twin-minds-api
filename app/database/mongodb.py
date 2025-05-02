@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Any
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -48,11 +48,33 @@ class MongoDBMetadataRepository(MetadataRepository):
     async def insert_interest(self, interest: str):
         await db.interests.insert_one({"name": interest})
 
+    def __get_default_aggregate(self) -> List[Dict[str, Dict[str, Any]]]:
+        return [
+            {
+                "$group": {
+                    "_id": None,
+                    "names": { "$push": "$name" }
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "names": 1
+                }
+            }
+        ]
+
     async def get_all_interests(self) -> List[str]:
-        return await db.interests.find().to_list(None)
+        result = await db.interests.aggregate(self.__get_default_aggregate()).to_list(length=1)
+        if result:
+            return result[0]["names"]
+        return []
 
     async def delete_interest(self, interest: str):
         await db.interests.delete_one({"mame": interest})
 
     async def get_all_personalities(self) -> List[str]:
-        return await db.personalities.find().to_list(None)
+        result = await db.personalities.aggregate(self.__get_default_aggregate()).to_list(length=1)
+        if result:
+            return result[0]["names"]
+        return []

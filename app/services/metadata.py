@@ -11,8 +11,10 @@ class MetadataService:
         else:
             self.db = MongoDBMetadataRepository()
 
-    def get(self) -> MetaData:
+    async def get(self) -> MetaData:
+        personalities = await self.db.get_all_personalities()
+        interests = await self.db.get_all_interests()
         return MetaData(
-            personalities=self.db.get_all_personalities(),
-            interests=self.db.get_all_interests(),
+            personalities=personalities,
+            interests=interests,
         )

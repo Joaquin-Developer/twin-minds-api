@@ -66,15 +66,11 @@ class MongoDBMetadataRepository(MetadataRepository):
 
     async def get_all_interests(self) -> List[str]:
         result = await db.interests.aggregate(self.__get_default_aggregate()).to_list(length=1)
-        if result:
-            return result[0]["names"]
-        return []
+        return result[0]["names"] if result else []
 
     async def delete_interest(self, interest: str):
         await db.interests.delete_one({"mame": interest})
 
     async def get_all_personalities(self) -> List[str]:
         result = await db.personalities.aggregate(self.__get_default_aggregate()).to_list(length=1)
-        if result:
-            return result[0]["names"]
-        return []
+        return result[0]["names"] if result else []

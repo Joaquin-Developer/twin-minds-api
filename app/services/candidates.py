@@ -8,7 +8,8 @@ from app.services.users import UsersService
 
 class CandidatesService:
     def __init__(self, user_id: int = None, user: User = None):
-        self.user = user if user else UsersService.get_user_by_id(user_id)
+        self.users_service = UsersService()
+        self.user = user if user else self.users_service.get_user_by_id(user_id)
 
     def get_personality_match_by_level(self, level: str) -> List[str]:
         """
@@ -18,7 +19,7 @@ class CandidatesService:
 
     def get_candidates_db(self):
         # TODO: Filter in bd by location and age range.
-        data = UsersService.get_all_users()
+        data = self.users_service.get_all_users()
         return [
             Candidate(
                 score=0,

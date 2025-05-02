@@ -1,6 +1,5 @@
 import os
 from typing import List
-from pydantic import AnyHttpUrl
 from pydantic_settings import BaseSettings
 
 
@@ -15,6 +14,7 @@ class Settings(BaseSettings):
 
     BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:5173",  "http://127.0.0.1:5173"]
 
+    USE_LOCAL_STORAGE: bool
     MONGODB_URL: str
 
     class Config:

@@ -3,13 +3,18 @@ from typing import List
 from app.models.user import CreateUserRequest, User
 from app.database.local_storage import LocalStorageUserRepository
 from app.database.mongodb import MongoDBUserRepository
+from app.core.settings import settings
 
 
 class UsersService:
-    @staticmethod
-    async def create_user(data: CreateUserRequest):
-        db = LocalStorageUserRepository()
-        new_user = db.insert_user(data.email, data.name, data.age, data.personality, data.interests)
+    def __init__(self):
+        if settings.USE_LOCAL_STORAGE:
+            self.db = LocalStorageUserRepository()
+        else:
+            self.db = MongoDBUserRepository()
+
+    async def create_user(self, data: CreateUserRequest):
+        new_user = self.db.insert_user(data.email, data.name, data.age, data.personality, data.interests)
         return User(
             id=new_user["id"],
             email=new_user["email"],
@@ -19,11 +24,8 @@ class UsersService:
             interests=new_user["interests"],
         )
 
-    @staticmethod
-    async def get_all_users() -> List[User]:
-        # db = LocalStorageUserRepository()
-        db = MongoDBUserRepository()
-        data = await db.load()
+    async def get_all_users(self) -> List[User]:
+        data = await self.db.load()
         return [
             User(
                 id=user["id"],
@@ -36,10 +38,8 @@ class UsersService:
             for user in data
         ]
 
-    @staticmethod
-    async def get_user_by_id(user_id: int) -> User:
-        db = LocalStorageUserRepository()
-        user = db.get_user_by_id(user_id)
+    async def get_user_by_id(self, user_id: int) -> User:
+        user = self.db.get_user_by_id(user_id)
 
         if user:
             return User(
@@ -52,10 +52,8 @@ class UsersService:
             )
         return None
 
-    @staticmethod
-    async def get_user_by_mail(mail: str) -> User:
-        db = LocalStorageUserRepository()
-        user = db.get_user_by_email(mail)
+    async def get_user_by_mail(self, mail: str) -> User:
+        user = self.db.get_user_by_email(mail)
 
         if user:
             return User(

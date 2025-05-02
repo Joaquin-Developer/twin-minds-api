@@ -25,6 +25,12 @@ class MongoDBUserRepository(UserRepository):
     async def load(self) -> List[Dict[str, str]]:
         return await db.users.find().to_list(None)
 
+    async def get_user_by_email(self, email: str):
+        return await db.users.find_one({"email": email})
+
+    async def get_user_by_id(self, id: int):
+        return await db.users.find_one({"id": id})
+
 
 class MongoDBMetadataRepository(MetadataRepository):
     async def insert_interest(self, interest: str):

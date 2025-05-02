@@ -7,5 +7,5 @@ router = APIRouter()
 
 
 @router.get("/", response_model=MetaData)
-def get_metadata():
+async def get_metadata():
     return MetadataService.get()

@@ -2,11 +2,12 @@ from typing import List
 
 from app.models.user import CreateUserRequest, User
 from app.database.local_storage import LocalStorageUserRepository
+from app.database.mongodb import MongoDBUserRepository
 
 
 class UsersService:
     @staticmethod
-    def create_user(data: CreateUserRequest):
+    async def create_user(data: CreateUserRequest):
         db = LocalStorageUserRepository()
         new_user = db.insert_user(data.email, data.name, data.age, data.personality, data.interests)
         return User(
@@ -19,9 +20,10 @@ class UsersService:
         )
 
     @staticmethod
-    def get_all_users() -> List[User]:
-        db = LocalStorageUserRepository()
-        data = db.load()
+    async def get_all_users() -> List[User]:
+        # db = LocalStorageUserRepository()
+        db = MongoDBUserRepository()
+        data = await db.load()
         return [
             User(
                 id=user["id"],
@@ -35,7 +37,7 @@ class UsersService:
         ]
 
     @staticmethod
-    def get_user_by_id(user_id: int) -> User:
+    async def get_user_by_id(user_id: int) -> User:
         db = LocalStorageUserRepository()
         user = db.get_user_by_id(user_id)
 
@@ -51,7 +53,7 @@ class UsersService:
         return None
 
     @staticmethod
-    def get_user_by_mail(mail: str) -> User:
+    async def get_user_by_mail(mail: str) -> User:
         db = LocalStorageUserRepository()
         user = db.get_user_by_email(mail)
 

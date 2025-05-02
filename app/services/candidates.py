@@ -9,7 +9,8 @@ from app.services.users import UsersService
 class CandidatesService:
     def __init__(self, user_id: int = None, user: User = None):
         self.users_service = UsersService()
-        self.user = user if user else self.users_service.get_user_by_id(user_id)
+        self.user_id = user_id
+        self.user = user
 
     def get_personality_match_by_level(self, level: str) -> List[str]:
         """
@@ -17,9 +18,16 @@ class CandidatesService:
         """
         return COMPATIBILITIES_MYERS_BRIGGS_DATA[level][self.user.personality]
 
+    async def get_user_by_id(self, user_id: int) -> User:
+        return await self.users_service.get_user_by_id(user_id)
+
     async def get_candidates_db(self):
         # TODO: Filter in bd by location and age range.
         data = await self.users_service.get_all_users()
+
+        if not self.user:
+            self.user = await self.get_user_by_id(self.user_id)
+
         return [
             Candidate(
                 score=0,

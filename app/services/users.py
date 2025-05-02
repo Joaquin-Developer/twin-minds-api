@@ -39,7 +39,7 @@ class UsersService:
         ]
 
     async def get_user_by_id(self, user_id: int) -> User:
-        user = self.db.get_user_by_id(user_id)
+        user = await self.db.get_user_by_id(user_id)
 
         if user:
             return User(
@@ -53,7 +53,7 @@ class UsersService:
         return None
 
     async def get_user_by_mail(self, mail: str) -> User:
-        user = self.db.get_user_by_email(mail)
+        user = await self.db.get_user_by_email(mail)
 
         if user:
             return User(

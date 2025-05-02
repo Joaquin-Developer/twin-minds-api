@@ -15,6 +15,8 @@ class Settings(BaseSettings):
 
     BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:5173",  "http://127.0.0.1:5173"]
 
+    MONGODB_URL: str
+
     class Config:
         env_file_encoding = "utf-8"
         case_sensitive = True

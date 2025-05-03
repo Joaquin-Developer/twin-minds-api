@@ -10,11 +10,11 @@ router = APIRouter()
 
 
 @router.get("/generate/{user_id}", response_model=List[Candidate])
-def generate_candidates_list_from_user(user_id: str):
+async def generate_candidates_list_from_user(user_id: str):
     try:
         user_id = int(user_id)
         service = CandidatesService(user_id)
-        data = service.generate()
+        data = await service.generate()
         return data
     except Exception as error:
         traceback.print_exc()

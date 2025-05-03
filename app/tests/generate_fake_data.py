@@ -54,14 +54,18 @@ class GenerateFakeUsers:
 
         return fake_users
 
+    def create_mongodb_query(self, fake_data: List[Dict[str, Any]]) -> str:
+        return "db.users.insertMany({json_users});".format(json_users=str(fake_data))
+
     async def main(self):
+        print(f"Length: {self.length} | First ID: {self.first_id}")
         personalities, interests = await self.get_metadata()
         self.personalities = personalities
         self.interests = interests
 
         fake_data = self.generate_fake_users()
-        for user in fake_data:
-            print(user)
+        query = self.create_mongodb_query(fake_data)
+        print(query)
 
 
 def get_args() -> Tuple[int, int]:
